@@ -45,7 +45,9 @@ def search(term, num_results=10, lang="en", proxy=None, advanced=False, sleep_in
 
     # Fetch
     start = 0
-    while start < num_results:
+    times = 0
+    # num_results should be ok for now
+    while start < num_results and times < num_results:
         # Send request
         resp = _req(escaped_term, num_results - start, lang, start, proxies)
 
@@ -65,4 +67,5 @@ def search(term, num_results=10, lang="en", proxy=None, advanced=False, sleep_in
                         yield SearchResult(link["href"], title.text, description.text)
                     else:
                         yield link["href"]
+        times += 1
         sleep(sleep_interval)
